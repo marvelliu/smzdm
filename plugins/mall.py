@@ -28,8 +28,9 @@ class MallPlugin(Plugin):
                 title = self.format_str(m.xpath('span[@class="black"]/text()')[0])
                 highlight= self.format_str(m.xpath('span[@class="red"]/text()')[0])
                 #print "%s: %s" % (title, highlight)
-                content = self.format_str(m.attrib.get("href"))
                 hash = md5.new("%s%s"%(title,highlight)).hexdigest() 
+                content = self.format_str(m.attrib.get("href"))
+                content = "%s %s" % (content, hash)
                 entity = NewsEntity(title, highlight, content)
                 #print hash
                 news_dict[hash] = entity

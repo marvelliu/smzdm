@@ -27,11 +27,13 @@ class SearchPlugin(Plugin):
             news_dict = {}
             for m in matches:
                 title = self.format_str(m.xpath('h5[@class="feed-block-title"]/a/text()')[0])
+                link = self.format_str(m.xpath('h5[@class="feed-block-title"]/a')[0].attrib.get("href"))
                 #print title
                 highlight = self.format_str(m.xpath('h5[@class="feed-block-title"]/a/div[@class="z-highlight"]/text()')[0])
                 #print highlight
                 content = self.format_str(m.xpath('div[@class="feed-block-descripe"]/text()')[0])
                 hash = md5.new("%s%s"%(title,highlight)).hexdigest() 
+                content = "%s %s %s" % (content, link, hash)
                 entity = NewsEntity(title, highlight, content)
                 #print hash
                 news_dict[hash] = entity
